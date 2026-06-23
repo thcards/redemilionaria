@@ -1,0 +1,395 @@
+bash
+
+LOGO=$(base64 -w 0 /mnt/user-data/uploads/REDE_1kk_logo.jpg)
+
+cat > /mnt/user-data/outputs/thiago_cardoso_rede_milionaria.html << HTMLEOF
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thiago Cardoso — SDR Rede Milionária</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --dark: #0D0D0D;
+      --dark2: #1A1A1A;
+      --dark3: #232323;
+      --white: #F5F5F0;
+      --gray: #888888;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--white); font-size: 15px; line-height: 1.7; }
+
+    /* NAV */
+    header { background: rgba(13,13,13,0.97); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(201,168,76,0.2); }
+    nav { max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav__logo img { height: 34px; }
+    .nav__logo-name { font-size: 13px; font-weight: 600; color: var(--gold); border-left: 1px solid rgba(201,168,76,0.4); padding-left: 10px; }
+    .nav__list { display: flex; gap: 22px; list-style: none; }
+    .nav__link { color: var(--gray); font-size: 12px; text-decoration: none; transition: color 0.2s; }
+    .nav__link:hover, .nav__link.active-link { color: var(--gold); }
+    .nav__toggle { display: none; font-size: 24px; color: var(--white); cursor: pointer; }
+    .nav__close { display: none; }
+
+    /* HELPERS */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 24px; max-width: 960px; margin: 0 auto; }
+    .section__subtitle { font-size: 13px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+    .section__subtitle span { color: var(--white); }
+    .section__title { font-size: 26px; font-weight: 900; color: var(--white); margin-bottom: 28px; line-height: 1.2; }
+    .button { display: inline-block; background: var(--gold); color: var(--dark); font-weight: 700; font-size: 13px; padding: 12px 28px; border-radius: 6px; text-decoration: none; letter-spacing: 0.5px; transition: background 0.2s; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; }
+    .button:hover { background: var(--gold-light); }
+
+    /* HOME */
+    .home { padding: 80px 24px; }
+    .home__container { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .home__subtitle { font-size: 14px; color: var(--gray); margin-bottom: 4px; }
+    .home__subtitle span { color: var(--gold); font-weight: 600; }
+    .home__title { font-size: 38px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 4px; }
+    .home__education { font-size: 15px; color: var(--gold); font-weight: 600; margin-bottom: 20px; }
+    .home__brand { margin-bottom: 18px; }
+    .home__brand img { height: 40px; }
+    .home__description { font-size: 13px; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+    .home__social { display: flex; gap: 14px; margin-top: 20px; }
+    .home__social a { color: var(--gray); font-size: 24px; transition: color 0.2s; }
+    .home__social a:hover { color: var(--gold); }
+    .home__image { display: flex; justify-content: center; align-items: center; }
+    .home__blob-wrap { width: 300px; height: 300px; background: linear-gradient(135deg, #C9A84C, #8B6914); clip-path: polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%); display: flex; align-items: center; justify-content: center; }
+    .home__blob-inner { width: 258px; height: 258px; background: var(--dark3); clip-path: polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
+    .home__blob-inner img { width: 120px; }
+    .home__blob-divider { border-top: 1px solid rgba(201,168,76,0.3); width: 80%; padding-top: 8px; margin-top: 4px; }
+    .home__blob-name { font-size: 11px; font-weight: 700; color: var(--white); }
+    .home__blob-role { font-size: 9px; color: var(--gold); }
+
+    /* ABOUT */
+    .about { background: var(--dark); }
+    .about__container { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .about__logo { margin-bottom: 14px; }
+    .about__logo img { height: 50px; }
+    .about__description { font-size: 13px; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+    .about__stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 24px; }
+    .about__stat { background: var(--dark3); border: 1px solid rgba(201,168,76,0.2); border-radius: 10px; padding: 16px 10px; text-align: center; }
+    .about__stat-num { font-size: 20px; font-weight: 900; color: var(--gold); }
+    .about__stat-label { font-size: 10px; color: var(--gray); margin-top: 3px; }
+    .about__image-box { background: linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.2)); border: 1px solid rgba(201,168,76,0.3); border-radius: 16px; padding: 48px 32px; text-align: center; }
+    .about__icon { font-size: 80px; color: var(--gold); opacity: 0.8; }
+    .about__image-box p { font-size: 12px; color: var(--gray); margin-top: 16px; line-height: 1.7; }
+
+    /* SKILLS */
+    .skills { background: var(--dark2); padding: 80px 0; }
+    .skills__container { max-width: 960px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .skills__description { font-size: 13px; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+    .skills__group { list-style: none; display: flex; flex-direction: column; gap: 10px; counter-reset: item; }
+    .skills__item { counter-increment: item; background: var(--dark3); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: var(--white); display: flex; align-items: center; gap: 10px; }
+    .skills__item::before { content: counter(item, decimal-leading-zero); color: var(--gold); font-weight: 700; font-size: 12px; min-width: 24px; }
+
+    /* SERVICES */
+    .services { background: var(--dark); }
+    .services__container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .services__card { background: var(--dark2); border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
+    .services__card:hover { border-color: rgba(201,168,76,0.5); }
+    .services__icon { font-size: 28px; color: var(--gold); margin-bottom: 12px; display: block; }
+    .services__title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+    .services__description { font-size: 12px; color: var(--gray); line-height: 1.7; }
+
+    /* PROJECTS */
+    .projects { background: var(--dark2); }
+    .projects__container { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .projects__card { background: var(--dark); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; padding: 28px 20px; text-align: center; transition: border-color 0.2s; }
+    .projects__card:hover { border-color: var(--gold); }
+    .projects__icon { font-size: 38px; color: var(--gold); margin-bottom: 12px; }
+    .projects__subtitle { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+    .projects__title { font-size: 13px; font-weight: 600; color: var(--white); margin: 6px 0 16px; line-height: 1.4; }
+    .projects__button { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid var(--gold); padding: 7px 16px; border-radius: 5px; transition: background 0.2s, color 0.2s; }
+    .projects__button:hover { background: var(--gold); color: var(--dark); }
+
+    /* CONTACT */
+    .contact { background: var(--dark); }
+    .contact__container { max-width: 600px; margin: 0 auto; }
+    .contact__form { background: var(--dark2); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 32px; }
+    .contact__group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .contact__input { background: var(--dark3); border: 1px solid rgba(201,168,76,0.2); border-radius: 8px; padding: 12px 16px; color: var(--white); font-size: 13px; font-family: 'Poppins', sans-serif; width: 100%; outline: none; transition: border-color 0.2s; margin-bottom: 0; }
+    .contact__input:focus { border-color: var(--gold); }
+    .contact__input::placeholder { color: var(--gray); }
+    textarea.contact__input { resize: vertical; min-height: 110px; margin-top: 12px; margin-bottom: 16px; }
+    .contact__button { width: 100%; justify-content: center; }
+
+    /* FOOTER */
+    footer { background: var(--dark2); border-top: 1px solid rgba(201,168,76,0.2); padding: 48px 24px 28px; text-align: center; }
+    .footer__logo { margin-bottom: 10px; }
+    .footer__logo img { height: 50px; }
+    .footer__name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .footer__name span { color: var(--gold); }
+    .footer__role { font-size: 12px; color: var(--gray); margin-bottom: 20px; }
+    .footer__social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+    .footer__social a { color: var(--gray); font-size: 24px; transition: color 0.2s; }
+    .footer__social a:hover { color: var(--gold); }
+    .footer__copy { font-size: 11px; color: #555; }
+
+    /* SCROLL UP */
+    .scrollup { position: fixed; bottom: 24px; right: 24px; background: var(--gold); color: var(--dark); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; opacity: 0; transition: opacity 0.3s; z-index: 50; }
+    .scrollup.show { opacity: 0.9; }
+    .scrollup:hover { background: var(--gold-light); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav__list { display: none; flex-direction: column; position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: var(--dark2); padding: 80px 32px 32px; gap: 28px; transition: right 0.3s; z-index: 200; }
+      .nav__list.show-menu { display: flex; right: 0; }
+      .nav__link { font-size: 15px; }
+      .nav__toggle { display: block; }
+      .nav__close { display: block; position: absolute; top: 20px; right: 20px; font-size: 26px; color: var(--white); cursor: pointer; }
+      .home__container { grid-template-columns: 1fr; text-align: center; }
+      .home__social { justify-content: center; }
+      .home__image { order: -1; }
+      .home__blob-wrap { width: 220px; height: 220px; }
+      .home__blob-inner { width: 190px; height: 190px; }
+      .home__blob-inner img { width: 85px; }
+      .about__container { grid-template-columns: 1fr; }
+      .about__image-box { display: none; }
+      .skills__container { grid-template-columns: 1fr; }
+      .services__container { grid-template-columns: 1fr; }
+      .projects__container { grid-template-columns: 1fr; }
+      .contact__group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <nav>
+      <a href="#home" class="nav__logo">
+        <img src="data:image/jpeg;base64,LOGO_PLACEHOLDER" alt="Rede Milionária">
+        <span class="nav__logo-name">Thiago Cardoso</span>
+      </a>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list" id="nav-list">
+          <li><a href="#home" class="nav__link active-link">Início</a></li>
+          <li><a href="#about" class="nav__link">Quem Somos</a></li>
+          <li><a href="#skills" class="nav__link">Programa</a></li>
+          <li><a href="#services" class="nav__link">Vantagens</a></li>
+          <li><a href="#projects" class="nav__link">Links</a></li>
+          <li><a href="#contact" class="nav__link">Contato</a></li>
+        </ul>
+        <div class="nav__close" id="nav-close"><i class="ri-close-line"></i></div>
+      </div>
+      <div class="nav__toggle" id="nav-toggle"><i class="ri-menu-line"></i></div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HOME -->
+    <section class="home" id="home">
+      <div class="home__container">
+        <div class="home__data">
+          <h3 class="home__subtitle">Olá, <span>eu sou,</span></h3>
+          <h1 class="home__title">Thiago Cardoso</h1>
+          <h3 class="home__education">SDR — Consultor de Negócios</h3>
+          <div class="home__brand">
+            <img src="data:image/jpeg;base64,LOGO_PLACEHOLDER" alt="Rede Milionária">
+          </div>
+          <p class="home__description">Como SDR da Rede Milionária, estou comprometido em apresentar aos lojistas uma metodologia comprovada que já gerou mais de R\$16 bilhões em vendas para mais de 400 empresas em todo o Brasil. Se você tem uma loja e quer crescer com previsibilidade, estou aqui para mostrar como.</p>
+          <a href="#contact" class="button">Vamos conversar?</a>
+          <div class="home__social">
+            <a href="https://wa.me/+5548988021711" class="footer__social-link"><i class="ri-whatsapp-line"></i></a>
+            <a href="https://www.linkedin.com/in/thiagocardoso" class="footer__social-link"><i class="ri-linkedin-box-line"></i></a>
+          </div>
+        </div>
+        <div class="home__image">
+          <div class="home__blob-wrap">
+            <div class="home__blob-inner">
+              <img src="data:image/jpeg;base64,LOGO_PLACEHOLDER" alt="Rede Milionária">
+              <div class="home__blob-divider">
+                <div class="home__blob-name">Thiago Cardoso</div>
+                <div class="home__blob-role">SDR · Rede Milionária</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about section" id="about">
+      <div class="about__container">
+        <div class="about__data">
+          <h3 class="section__subtitle"><span>Quem</span> Somos</h3>
+          <div class="about__logo"><img src="data:image/jpeg;base64,LOGO_PLACEHOLDER" alt="Rede Milionária"></div>
+          <p class="about__description">Somos a Rede Milionária, referência nacional em gestão e crescimento para redes de lojas. Com mais de 21 anos de experiência, desenvolvemos uma metodologia exclusiva que transforma o dia a dia do lojista — do planejamento de campanhas à formação de equipe — gerando resultados reais e mensuráveis. Mais de 400 empresas já comprovaram o método.</p>
+          <a href="#contact" class="button">Entre em Contato</a>
+          <div class="about__stats">
+            <div class="about__stat"><div class="about__stat-num">400+</div><div class="about__stat-label">empresas atendidas</div></div>
+            <div class="about__stat"><div class="about__stat-num">R\$16bi</div><div class="about__stat-label">em vendas geradas</div></div>
+            <div class="about__stat"><div class="about__stat-num">21+</div><div class="about__stat-label">anos de experiência</div></div>
+          </div>
+        </div>
+        <div class="about__image">
+          <div class="about__image-box">
+            <i class="ri-store-2-line about__icon"></i>
+            <p>Metodologia exclusiva para redes de lojas que querem crescer com previsibilidade e consistência.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS / PROGRAMA -->
+    <section class="skills" id="skills">
+      <div class="skills__container">
+        <div class="skills__data">
+          <h3 class="section__subtitle">Conheça <span>o</span> nosso</h3>
+          <h2 class="section__title">Programa Milionário</h2>
+          <p class="skills__description">O Programa Milionário é uma jornada estruturada para lojistas que faturam acima de R\$100k/mês e querem crescer de forma consistente. Com mentoria contínua, calendário de campanhas, treinamento de equipe e acompanhamento de indicadores, você vai parar de apagar incêndios e começar a construir um negócio escalável.</p>
+          <a href="#contact" class="button">Quero conhecer o programa</a>
+        </div>
+        <div class="skills__content">
+          <ol class="skills__group">
+            <li class="skills__item">Calendário Milionário de Campanhas</li>
+            <li class="skills__item">Treinamento de Equipe de Vendas</li>
+            <li class="skills__item">Gestão por Indicadores (KPIs)</li>
+            <li class="skills__item">Mentoria com Especialistas</li>
+            <li class="skills__item">Playbook de Gestão</li>
+            <li class="skills__item">Comunidade de Lojistas</li>
+            <li class="skills__item">Estratégia de Fidelização</li>
+            <li class="skills__item">Suporte Contínuo</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES / VANTAGENS -->
+    <section class="services section" id="services">
+      <h3 class="section__subtitle">Vantagens <span>& benefícios</span></h3>
+      <h2 class="section__title">POR QUE ESCOLHER A REDE MILIONÁRIA?</h2>
+      <div class="services__container">
+        <article class="services__card">
+          <i class="ri-line-chart-line services__icon"></i>
+          <h2 class="services__title">Crescimento Previsível</h2>
+          <p class="services__description">Pare de depender da sorte ou da sazonalidade. Com o Calendário Milionário, sua loja tem uma estratégia de vendas planejada para o ano todo, com campanhas testadas e aprovadas por centenas de lojistas.</p>
+        </article>
+        <article class="services__card">
+          <i class="ri-team-line services__icon"></i>
+          <h2 class="services__title">Equipe de Alta Performance</h2>
+          <p class="services__description">Seus vendedores vão aprender a vender mais e melhor, sem precisar de você no balcão. Treinamento contínuo, scripts de vendas e acompanhamento de metas para toda a equipe.</p>
+        </article>
+        <article class="services__card">
+          <i class="ri-timer-flash-line services__icon"></i>
+          <h2 class="services__title">Mais Tempo e Liberdade</h2>
+          <p class="services__description">A metodologia foi desenhada para que o lojista saia do operacional e volte a ser estratégico. Delegue, acompanhe indicadores e tome decisões com dados — não com achismos.</p>
+        </article>
+        <article class="services__card">
+          <i class="ri-group-2-line services__icon"></i>
+          <h2 class="services__title">Comunidade Exclusiva</h2>
+          <p class="services__description">Faça parte de uma rede de mais de 400 empresários do varejo que compartilham experiências, estratégias e resultados. Networking real, com quem vive o mesmo mercado que você.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS / LINKS -->
+    <section class="projects section" id="projects">
+      <h3 class="section__subtitle">Para maiores <span>Informações</span></h3>
+      <h2 class="section__title">Links e Canais</h2>
+      <div class="projects__container">
+        <article class="projects__card">
+          <i class="ri-global-line projects__icon"></i>
+          <span class="projects__subtitle">Site Oficial</span>
+          <h2 class="projects__title">Rede Milionária</h2>
+          <a href="https://redemilionaria.com/" class="projects__button" target="_blank">Abrir <i class="ri-external-link-line"></i></a>
+        </article>
+        <article class="projects__card">
+          <i class="ri-whatsapp-line projects__icon"></i>
+          <span class="projects__subtitle">Contato Direto</span>
+          <h2 class="projects__title">Falar com Thiago Cardoso</h2>
+          <a href="https://wa.me/+5548988021711" class="projects__button" target="_blank">Abrir <i class="ri-external-link-line"></i></a>
+        </article>
+        <article class="projects__card">
+          <i class="ri-instagram-line projects__icon"></i>
+          <span class="projects__subtitle">Redes Sociais</span>
+          <h2 class="projects__title">Instagram Rede Milionária</h2>
+          <a href="https://instagram.com/redemilionaria" class="projects__button" target="_blank">Abrir <i class="ri-external-link-line"></i></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact section" id="contact">
+      <h3 class="section__subtitle">Entre em <span>Contato</span></h3>
+      <h2 class="section__title">Fale Comigo</h2>
+      <div class="contact__container">
+        <form class="contact__form">
+          <div class="contact__group">
+            <input type="text" name="user_name" required placeholder="Seu nome" class="contact__input">
+            <input type="text" name="user_phone" required placeholder="Seu WhatsApp" class="contact__input">
+          </div>
+          <input type="text" name="user_store" placeholder="Nome da sua loja" class="contact__input" style="margin-bottom:0;">
+          <textarea name="user_message" required placeholder="Fale um pouco sobre sua loja e o que você busca..." class="contact__input"></textarea>
+          <button type="submit" class="button contact__button">Enviar Mensagem</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer__logo"><img src="data:image/jpeg;base64,LOGO_PLACEHOLDER" alt="Rede Milionária"></div>
+    <p class="footer__name">Thiago <span>Cardoso</span></p>
+    <p class="footer__role">SDR · Rede Milionária</p>
+    <div class="footer__social">
+      <a href="https://wa.me/+5548988021711"><i class="ri-whatsapp-line"></i></a>
+      <a href="https://www.linkedin.com/in/thiagocardoso"><i class="ri-linkedin-box-line"></i></a>
+      <a href="https://instagram.com/redemilionaria"><i class="ri-instagram-line"></i></a>
+    </div>
+    <span class="footer__copy">© Rede Milionária 2024. Apresentado por Thiago Cardoso.</span>
+  </footer>
+
+  <a href="#" class="scrollup" id="scroll-up"><i class="ri-arrow-up-line"></i></a>
+
+  <script>
+    // Mobile menu
+    const navMenu = document.getElementById('nav-list');
+    const navToggle = document.getElementById('nav-toggle');
+    const navClose = document.getElementById('nav-close');
+    navToggle.addEventListener('click', () => navMenu.classList.add('show-menu'));
+    navClose.addEventListener('click', () => navMenu.classList.remove('show-menu'));
+    document.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('show-menu'));
+    });
+
+    // Scroll up button
+    const scrollUp = document.getElementById('scroll-up');
+    window.addEventListener('scroll', () => {
+      scrollUp.classList.toggle('show', window.scrollY >= 400);
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id], div[id]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset;
+      sections.forEach(s => {
+        const sHeight = s.offsetHeight;
+        const sTop = s.offsetTop - 100;
+        const sId = s.getAttribute('id');
+        const link = document.querySelector('.nav__link[href*=' + sId + ']');
+        if (link) {
+          if (scrollY > sTop && scrollY <= sTop + sHeight) {
+            document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active-link'));
+            link.classList.add('active-link');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+HTMLEOF
+
+echo "File created, now replacing logo placeholder..."
+LOGO=$(base64 -w 0 /mnt/user-data/uploads/REDE_1kk_logo.jpg)
+sed -i "s|LOGO_PLACEHOLDER|${LOGO}|g" /mnt/user-data/outputs/thiago_cardoso_rede_milionaria.html
+echo "Done. File size: $(du -h /mnt/user-data/outputs/thiago_cardoso_rede_milionaria.html | cut -f1)"
